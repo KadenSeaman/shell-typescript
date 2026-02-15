@@ -7,15 +7,30 @@ const rl = createInterface({
 
 enum Commands {
   Exit = "exit",
+  Echo = "echo",
 }
 
 const prompt = () => {
   rl.question("$ ", (answer) => {
-    if (answer === Commands.Exit) {
-      rl.close();
-      return;
+    const command = answer.split(" ")[0];
+    if (!command) {
+      console.log(answer + ": command not found");
     }
-    console.log(answer + ": command not found");
+
+    switch (answer) {
+      case Commands.Exit: {
+        rl.close();
+        return;
+      }
+      case Commands.Echo: {
+        const content = answer.substring(5);
+        console.log(content);
+        break;
+      }
+      default: {
+        console.log(answer + ": command not found");
+      }
+    }
     prompt();
   });
 };
