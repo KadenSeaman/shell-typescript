@@ -5,8 +5,15 @@ const rl = createInterface({
   output: process.stdout,
 });
 
+enum Commands {
+  Exit = "exit",
+}
+
 const prompt = () => {
   rl.question("$ ", (answer) => {
+    if (answer === Commands.Exit) {
+      return;
+    }
     console.log(answer + ": command not found");
     prompt();
   });
