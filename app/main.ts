@@ -8,8 +8,7 @@ const rl = createInterface({
 const prompt = () => {
   rl.question("$ ", (answer) => {
     console.log(answer + ": command not found");
+    prompt();
   });
-  prompt();
 };
-
 prompt();
