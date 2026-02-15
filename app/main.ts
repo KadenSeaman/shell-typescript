@@ -18,7 +18,7 @@ const prompt = () => {
       console.log(answer + ": command not found");
     }
 
-    switch (answer) {
+    switch (command) {
       case Commands.Exit: {
         rl.close();
         return;
