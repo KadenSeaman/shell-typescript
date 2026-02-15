@@ -12,6 +12,7 @@ enum Commands {
 const prompt = () => {
   rl.question("$ ", (answer) => {
     if (answer === Commands.Exit) {
+      rl.close();
       return;
     }
     console.log(answer + ": command not found");
