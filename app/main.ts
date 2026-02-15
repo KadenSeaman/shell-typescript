@@ -13,7 +13,6 @@ enum Commands {
 const prompt = () => {
   rl.question("$ ", (answer) => {
     const command = answer.split(" ")[0];
-    console.log(answer.split(" "));
     if (command === undefined) {
       console.log(answer + ": command not found");
     }
