@@ -15,7 +15,7 @@ export class TypeCommand extends Command {
     public name = CommandName.Type;
     public type = CommandType.BuiltIn;
 
-    public execute(input: string, readline: Interface): void {
+    public execute(input: string, _: Interface): void {
         const commandName = getCommandNameFromString(input);
         if (isDef(commandName)) {
             const command = CommandRegistry.get(commandName);
@@ -30,11 +30,11 @@ export class TypeCommand extends Command {
             try {
                 accessSync(fullPath);
                 console.log(`${commandName} is ${fullPath}`);
+                return;
             } catch {
                 continue;
             }
         }
-        console.log(directories);
 
         console.log(`${input}: not found`);
     }
