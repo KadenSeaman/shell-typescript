@@ -1,5 +1,5 @@
 import type { Interface } from 'node:readline';
-import { Command, CommandName, CommandRegistry, CommandType } from './command';
+import { Command, CommandName, CommandType } from './command';
 
 export class ExitCommand extends Command {
     public name = CommandName.Exit;
