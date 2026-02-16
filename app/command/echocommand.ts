@@ -6,7 +6,6 @@ export class EchoCommand extends Command {
     public readonly type = CommandType.BuiltIn;
 
     public execute(input: string, _: Interface): void {
-        const content = input.substring(5);
-        console.log(content);
+        console.log(input);
     }
 }
