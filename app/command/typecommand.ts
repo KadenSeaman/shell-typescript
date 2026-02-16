@@ -9,6 +9,9 @@ export class TypeCommand extends Command {
 
     public execute(args: string[], _: Interface): void {
         const commandName = args[0];
+        if (!isDef(commandName)) {
+            throw new Error('Expected at least one argument');
+        }
         const fullPath = args.join(' ');
         if (isCommandName(commandName)) {
             const command = CommandRegistry.get(commandName);
@@ -17,7 +20,7 @@ export class TypeCommand extends Command {
                 return;
             }
         }
-        const pathCommand = findPathCommand(fullPath);
+        const pathCommand = findPathCommand(commandName);
         if (isDef(pathCommand)) {
             console.log(`${fullPath} is ${pathCommand}`);
             return;

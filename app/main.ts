@@ -37,12 +37,10 @@ const handleCommand = (input: string): void => {
     }
 
     // check $PATH commands
-    console.log(commandName);
-    console.log(commandArgs);
-    const fullPath = findPathCommand(args.join(' '));
+    const fullPath = findPathCommand(commandName);
     if (isDef(fullPath)) {
         try {
-            execSync(`${commandName} ${commandArgs.join(' ')}`, {
+            execSync(`${commandName} ${commandArgs}`, {
                 stdio: 'inherit',
             });
             return;
