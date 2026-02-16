@@ -37,7 +37,7 @@ const handleCommand = (input: string): void => {
     }
 
     // check $PATH commands
-    const fullPath = findPathCommand(commandName);
+    const fullPath = findPathCommand(args.join(' '));
     if (isDef(fullPath)) {
         try {
             execSync(`${commandName} ${commandArgs.join(' ')}`, {
