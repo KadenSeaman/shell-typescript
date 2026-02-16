@@ -8,6 +8,7 @@ import {
 import { isDef } from '../validator/core';
 import { CommandRegistry } from './commandregistry';
 import path from 'node:path';
+import { env } from 'node:process';
 
 export class TypeCommand extends Command {
     public name = CommandName.Type;
@@ -23,7 +24,8 @@ export class TypeCommand extends Command {
             }
         }
         console.log('importatn');
-        console.log(path.resolve());
+        const path = env.PATH;
+        console.log(path);
 
         console.log(`${input}: not found`);
     }
