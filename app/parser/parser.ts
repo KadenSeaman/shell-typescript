@@ -68,8 +68,6 @@ export class ShellParser {
      * @returns an ordered array of args
      */
     public parseInput(input: string): string[] {
-        const result: string[] = [];
-
         this.input = input;
 
         while (this.pos < input.length) {
@@ -101,8 +99,8 @@ export class ShellParser {
             this.nextToken();
         }
 
+        const result = this.args;
         this.clearState();
-
         return result;
     }
 }
