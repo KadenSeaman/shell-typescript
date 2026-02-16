@@ -11,7 +11,6 @@ export class CommandRegistry {
     }
 
     static get(name: CommandName): Command | undefined {
-        console.log(this.commands);
         return this.commands.get(name);
     }
 }
