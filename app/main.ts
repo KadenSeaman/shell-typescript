@@ -3,7 +3,7 @@ import { isCommandName } from './command/command';
 import { isDef } from './validator/core';
 import { CommandRegistry } from './command/commandregistry';
 import { findPathCommand } from './util';
-import { execSync, spawnSync } from 'child_process';
+import { spawnSync } from 'child_process';
 import { ShellParser } from './parser/parser';
 
 const readline = createInterface({

@@ -3,8 +3,14 @@ import { assertNever, isDef } from '../validator/core';
 enum ParsingState {
     Standard,
     InsideSingleQuotes,
+    InsideDoubleQuotes,
 }
-const singleQuote = "'";
+const isSingleQuote = (token: string) => {
+    return token === "'";
+};
+const isDoubleQuote = (token: string) => {
+    return token === '"';
+};
 const isWhitespace = (token: string) => {
     return token === ' ' || token === '\t' || token === '\n';
 };
@@ -68,8 +74,14 @@ export class ShellParser {
                         this.nextToken();
                         continue;
                     }
-                    if (token === singleQuote) {
+                    if (isSingleQuote(token)) {
                         this.state = ParsingState.InsideSingleQuotes;
+                        this.tokenStarted = true;
+                        this.nextToken();
+                        continue;
+                    }
+                    if (isDoubleQuote(token)) {
+                        this.state = ParsingState.InsideDoubleQuotes;
                         this.tokenStarted = true;
                         this.nextToken();
                         continue;
@@ -78,7 +90,16 @@ export class ShellParser {
                     break;
                 }
                 case ParsingState.InsideSingleQuotes: {
-                    if (token === singleQuote) {
+                    if (isSingleQuote(token)) {
+                        this.state = ParsingState.Standard;
+                        this.nextToken();
+                        continue;
+                    }
+                    this.addToBuffer(token);
+                    break;
+                }
+                case ParsingState.InsideDoubleQuotes: {
+                    if (isDoubleQuote(token)) {
                         this.state = ParsingState.Standard;
                         this.nextToken();
                         continue;
