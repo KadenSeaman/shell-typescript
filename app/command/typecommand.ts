@@ -9,7 +9,7 @@ import { isDef } from '../validator/core';
 import { CommandRegistry } from './commandregistry';
 import path from 'node:path';
 import { env } from 'node:process';
-import { accessSync } from 'node:fs';
+import { accessSync, constants } from 'node:fs';
 
 export class TypeCommand extends Command {
     public name = CommandName.Type;
@@ -29,7 +29,7 @@ export class TypeCommand extends Command {
         for (const directory of directories) {
             const fullPath = `${directory}/${commandName}`;
             try {
-                accessSync(fullPath);
+                accessSync(fullPath, constants.X_OK);
                 console.log(`${commandName} is ${fullPath}`);
                 return;
             } catch {
