@@ -8,9 +8,13 @@ export class CdCommand extends Command {
     public name = CommandName.Cd;
 
     public execute(input: string, readline: Interface): void {
-        const dir = input.split(' ')[0];
+        let dir = input.split(' ')[0];
         if (!isDef(dir)) {
             console.log(`cd: No file or directory provided`);
+        }
+        const firstSymbol = dir[0];
+        if (firstSymbol === '~' && process.env.HOME) {
+            dir = `${process.env.HOME}${dir.substring(1)}`;
         }
         try {
             accessSync(dir);
