@@ -1,4 +1,7 @@
 import type { Interface } from 'readline';
+import { EchoCommand } from './echocommand';
+import { ExitCommand } from './exitcommand';
+import { TypeCommand } from './typecommand';
 
 export const getCommandNameFromString = (
     input: string,
@@ -43,3 +46,7 @@ export abstract class Command {
 
     abstract execute(input: string, readline: Interface): void;
 }
+
+CommandRegistry.register(CommandName.Echo, new EchoCommand());
+CommandRegistry.register(CommandName.Exit, new ExitCommand());
+CommandRegistry.register(CommandName.Type, new TypeCommand());
