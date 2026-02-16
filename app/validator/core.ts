@@ -1,7 +1,11 @@
 export const isDef = <T>(val: T): val is NonNullable<T> => {
-  return val !== undefined;
+    return val !== undefined;
 };
 
 export const isNull = <T>(val: T): val is Exclude<T, null> => {
-  return val !== null;
+    return val !== null;
+};
+
+export const assertNever = (val: never): never => {
+    throw new Error(`${val} should be never`);
 };
