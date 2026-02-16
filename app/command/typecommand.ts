@@ -6,6 +6,7 @@ import {
     getCommandNameFromString,
 } from './command';
 import { isDef } from '../validator/core';
+import { CommandRegistry } from './commandregistry';
 
 export class TypeCommand extends Command {
     public name = CommandName.Type;
