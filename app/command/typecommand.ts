@@ -2,7 +2,6 @@ import type { Interface } from 'node:readline';
 import {
     Command,
     CommandName,
-    CommandType,
     getCommandNameFromString,
     isCommandName,
 } from './command';

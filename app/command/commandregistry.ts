@@ -1,6 +1,7 @@
 import { CommandName, type Command } from './command';
 import { EchoCommand } from './echocommand';
 import { ExitCommand } from './exitcommand';
+import { PwdCommand } from './pwdcommand';
 import { TypeCommand } from './typecommand';
 
 export class CommandRegistry {
@@ -18,3 +19,4 @@ export class CommandRegistry {
 CommandRegistry.register(CommandName.Echo, new EchoCommand());
 CommandRegistry.register(CommandName.Exit, new ExitCommand());
 CommandRegistry.register(CommandName.Type, new TypeCommand());
+CommandRegistry.register(CommandName.Pwd, new PwdCommand());
