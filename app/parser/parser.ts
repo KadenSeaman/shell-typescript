@@ -14,6 +14,9 @@ const isDoubleQuote = (token: string) => {
 const isWhitespace = (token: string) => {
     return token === ' ' || token === '\t' || token === '\n';
 };
+const isBackslash = (token: string) => {
+    return token === '\\';
+};
 
 export class ShellParser {
     private args: string[] = [];
@@ -83,6 +86,12 @@ export class ShellParser {
                     if (isDoubleQuote(token)) {
                         this.state = ParsingState.InsideDoubleQuotes;
                         this.tokenStarted = true;
+                        this.nextToken();
+                        continue;
+                    }
+                    if (isBackslash(token)) {
+                        this.nextToken();
+                        this.addToBuffer(this.currentToken);
                         this.nextToken();
                         continue;
                     }
