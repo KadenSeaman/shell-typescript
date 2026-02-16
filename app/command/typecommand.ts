@@ -7,6 +7,7 @@ import {
 } from './command';
 import { isDef } from '../validator/core';
 import { CommandRegistry } from './commandregistry';
+import path from 'node:path';
 
 export class TypeCommand extends Command {
     public name = CommandName.Type;
@@ -14,15 +15,16 @@ export class TypeCommand extends Command {
 
     public execute(input: string, readline: Interface): void {
         const commandName = getCommandNameFromString(input);
-        if (!isDef(commandName)) {
-            console.log(`${input}: not found`);
-            return;
+        if (isDef(commandName)) {
+            const command = CommandRegistry.get(commandName);
+            if (isDef(command)) {
+                console.log(`${commandName} is a shell ${command.type}`);
+                return;
+            }
         }
-        const command = CommandRegistry.get(commandName);
-        if (!isDef(command)) {
-            console.log(`${command} is not registered`);
-            return;
-        }
-        console.log(`${commandName} is a shell ${command.type}`);
+        console.log('importatn');
+        console.log(path);
+
+        console.log(`${input}: not found`);
     }
 }
