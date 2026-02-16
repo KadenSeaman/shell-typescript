@@ -34,7 +34,7 @@ const handleCommand = (input: string): void => {
 
     const fullPath = findPathCommand(commandName);
     if (isDef(fullPath)) {
-        fork(`${fullPath} ${commandArgs}`);
+        fork(fullPath, commandArgs.split(' '));
         return;
     }
 
