@@ -10,6 +10,7 @@ export enum CommandName {
     Echo = 'echo',
     Type = 'type',
     Pwd = 'pwd',
+    Cd = 'cd',
 }
 
 export const isCommandName = (

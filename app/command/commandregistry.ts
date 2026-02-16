@@ -1,3 +1,4 @@
+import { CdCommand } from './cdcommand';
 import { CommandName, type Command } from './command';
 import { EchoCommand } from './echocommand';
 import { ExitCommand } from './exitcommand';
@@ -20,3 +21,4 @@ CommandRegistry.register(CommandName.Echo, new EchoCommand());
 CommandRegistry.register(CommandName.Exit, new ExitCommand());
 CommandRegistry.register(CommandName.Type, new TypeCommand());
 CommandRegistry.register(CommandName.Pwd, new PwdCommand());
+CommandRegistry.register(CommandName.Cd, new CdCommand());
