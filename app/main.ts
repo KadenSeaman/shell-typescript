@@ -3,7 +3,8 @@ import { getCommandNameFromString, isCommandName } from './command/command';
 import { isDef } from './validator/core';
 import { CommandRegistry } from './command/commandregistry';
 import { findPathCommand } from './util';
-import { fork } from 'child_process';
+import { fork, spawn } from 'child_process';
+import { inherits } from 'util';
 
 const readline = createInterface({
     input: process.stdin,
@@ -34,7 +35,7 @@ const handleCommand = (input: string): void => {
 
     const fullPath = findPathCommand(commandName);
     if (isDef(fullPath)) {
-        fork(fullPath, commandArgs.split(' '));
+        spawn(fullPath, commandArgs.split(' '), { stdio: 'inherit' });
         return;
     }
 
