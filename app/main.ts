@@ -1,5 +1,5 @@
 import { createInterface } from 'readline';
-import { getCommandNameFromString, isCommandName } from './command/command';
+import { isCommandName } from './command/command';
 import { isDef } from './validator/core';
 import { CommandRegistry } from './command/commandregistry';
 import { findPathCommand } from './util';
@@ -20,6 +20,7 @@ const shellParser = new ShellParser();
 
 const handleCommand = (input: string): void => {
     const args = shellParser.parseInput(input);
+    console.log(args);
 
     const commandName = args[0];
     if (!isDef(commandName)) {
