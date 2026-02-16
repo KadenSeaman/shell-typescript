@@ -1,4 +1,7 @@
-import type { Command, CommandName } from './command';
+import { CommandName, type Command } from './command';
+import { EchoCommand } from './echocommand';
+import { ExitCommand } from './exitcommand';
+import { TypeCommand } from './typecommand';
 
 export class CommandRegistry {
     private static commands = new Map<CommandName, Command>();
@@ -12,3 +15,7 @@ export class CommandRegistry {
         return this.commands.get(name);
     }
 }
+
+CommandRegistry.register(CommandName.Echo, new EchoCommand());
+CommandRegistry.register(CommandName.Exit, new ExitCommand());
+CommandRegistry.register(CommandName.Type, new TypeCommand());

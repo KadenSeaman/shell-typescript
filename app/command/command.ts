@@ -34,7 +34,3 @@ export abstract class Command {
 
     abstract execute(input: string, readline: Interface): void;
 }
-
-CommandRegistry.register(CommandName.Echo, new EchoCommand());
-CommandRegistry.register(CommandName.Exit, new ExitCommand());
-CommandRegistry.register(CommandName.Type, new TypeCommand());
