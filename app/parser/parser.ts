@@ -88,6 +88,7 @@ export class ShellParser {
                     this.current += char;
                     if (char === singleQuote) {
                         this.state = ParsingState.Standard;
+                        this.endCurrent();
                     }
                     break;
                 }
