@@ -46,6 +46,9 @@ export class ShellParser {
     private nextToken() {
         this.pos++;
     }
+    private peekNextToken() {
+        return this.input[this.pos + 1];
+    }
 
     private commitBuffer() {
         if (this.tokenStarted) {
@@ -108,6 +111,20 @@ export class ShellParser {
                     break;
                 }
                 case ParsingState.InsideDoubleQuotes: {
+                    if (isBackslash(token)) {
+                        // Unhandled: $, `, newline
+                        const nextToken = this.peekNextToken();
+                        const nextTokenCanBeEscaped =
+                            isDef(nextToken) &&
+                            (isDoubleQuote(nextToken) ||
+                                isBackslash(nextToken));
+                        if (nextTokenCanBeEscaped) {
+                            this.nextToken();
+                            this.addToBuffer(nextToken);
+                            this.nextToken();
+                            continue;
+                        }
+                    }
                     if (isDoubleQuote(token)) {
                         this.state = ParsingState.Standard;
                         this.nextToken();
