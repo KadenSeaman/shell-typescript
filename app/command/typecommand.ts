@@ -4,6 +4,7 @@ import {
     CommandName,
     CommandType,
     getCommandNameFromString,
+    isCommandName,
 } from './command';
 import { isDef } from '../validator/core';
 import { CommandRegistry } from './commandregistry';
@@ -11,14 +12,13 @@ import { findPathCommand } from '../util';
 
 export class TypeCommand extends Command {
     public name = CommandName.Type;
-    public type = CommandType.BuiltIn;
 
     public execute(input: string, _: Interface): void {
         const commandName = getCommandNameFromString(input);
-        if (isDef(commandName)) {
+        if (isCommandName(commandName)) {
             const command = CommandRegistry.get(commandName);
             if (isDef(command)) {
-                console.log(`${commandName} is a shell ${command.type}`);
+                console.log(`${commandName} is a shell builtin`);
                 return;
             }
         }
