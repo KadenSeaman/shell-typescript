@@ -23,7 +23,7 @@ export class TypeCommand extends Command {
             }
         }
         console.log('importatn');
-        console.log(path);
+        console.log(path.resolve());
 
         console.log(`${input}: not found`);
     }
