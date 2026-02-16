@@ -25,6 +25,7 @@ export class TypeCommand extends Command {
             }
         }
         const directories = (process.env?.PATH ?? '').split(path.delimiter);
+        console.log(directories);
         for (const directory of directories) {
             const fullPath = `${directory}/${commandName}`;
             try {
