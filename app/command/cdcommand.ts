@@ -7,8 +7,8 @@ import { chdir } from 'node:process';
 export class CdCommand extends Command {
     public name = CommandName.Cd;
 
-    public execute(input: string, _: Interface): void {
-        let dir = input.split(' ')[0];
+    public execute(args: string[], _: Interface): void {
+        let dir = args[0];
         if (!isDef(dir)) {
             console.log(`cd: No file or directory provided`);
             return;
