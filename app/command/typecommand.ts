@@ -23,9 +23,8 @@ export class TypeCommand extends Command {
                 return;
             }
         }
-        console.log('importatn');
-        const path = env.PATH;
-        console.log(path);
+        const directories = process.env?.PATH?.split(path.delimiter);
+        console.log(directories);
 
         console.log(`${input}: not found`);
     }
