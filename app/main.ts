@@ -39,10 +39,12 @@ const handleCommand = (input: string): void => {
     // check $PATH commands
     const fullPath = findPathCommand(commandName);
     if (isDef(fullPath)) {
-        execSync(`${commandName} ${commandArgs.join(' ')}`, {
-            stdio: 'inherit',
-        });
-        return;
+        try {
+            execSync(`${commandName} ${commandArgs.join(' ')}`, {
+                stdio: 'inherit',
+            });
+            return;
+        } catch {}
     }
 
     console.log(`${input}: command not found`);
