@@ -9,6 +9,7 @@ import { isDef } from '../validator/core';
 import { CommandRegistry } from './commandregistry';
 import path from 'node:path';
 import { env } from 'node:process';
+import { accessSync } from 'node:fs';
 
 export class TypeCommand extends Command {
     public name = CommandName.Type;
@@ -23,7 +24,16 @@ export class TypeCommand extends Command {
                 return;
             }
         }
-        const directories = process.env?.PATH?.split(path.delimiter);
+        const directories = (process.env?.PATH ?? '').split(path.delimiter);
+        for (const directory of directories) {
+            const fullPath = `${directory}/${commandName}`;
+            try {
+                accessSync(fullPath);
+                console.log(`${commandName} is ${fullPath}`);
+            } catch {
+                continue;
+            }
+        }
         console.log(directories);
 
         console.log(`${input}: not found`);
