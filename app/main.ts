@@ -22,20 +22,19 @@ const handleCommand = (input: string): void => {
         console.log(`${input}: command not found`);
         return;
     }
-    const commandParameters = splitInput.slice(1).join(' ');
+    const commandArgs = splitInput.slice(1).join(' ');
 
     if (isCommandName(commandName)) {
         const command = CommandRegistry.get(commandName);
         if (isDef(command)) {
-            command.execute(commandParameters, readline);
+            command.execute(commandArgs, readline);
             return;
         }
     }
 
     const fullPath = findPathCommand(commandName);
     if (isDef(fullPath)) {
-        console.log('ffff');
-        // fork(fullPath, )
+        fork(fullPath + commandArgs);
         return;
     }
 
