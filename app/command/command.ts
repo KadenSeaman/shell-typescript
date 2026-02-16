@@ -1,13 +1,7 @@
 import type { Interface } from 'readline';
 
-export const getCommandNameFromString = (
-    input: string,
-): CommandName | undefined => {
-    const commandName = input.split(' ')[0];
-    if (isCommandName(commandName)) {
-        return commandName;
-    }
-    return undefined;
+export const getCommandNameFromString = (input: string): string | undefined => {
+    return input.split(' ')[0];
 };
 
 export enum CommandName {

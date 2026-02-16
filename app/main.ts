@@ -1,5 +1,5 @@
 import { createInterface } from 'readline';
-import { getCommandNameFromString } from './command/command';
+import { getCommandNameFromString, isCommandName } from './command/command';
 import { isDef } from './validator/core';
 import { CommandRegistry } from './command/commandregistry';
 import { findPathCommand } from './util';
@@ -18,9 +18,13 @@ readline.on('close', () => {
 const handleCommand = (input: string): void => {
     const splitInput = input.split(' ');
     const commandName = getCommandNameFromString(input);
+    if (!isDef(commandName)) {
+        console.log(`${input}: command not found`);
+        return;
+    }
     const commandParameters = splitInput.slice(1).join(' ');
 
-    if (isDef(commandName)) {
+    if (isCommandName(commandName)) {
         const command = CommandRegistry.get(commandName);
         if (isDef(command)) {
             command.execute(commandParameters, readline);
@@ -28,7 +32,7 @@ const handleCommand = (input: string): void => {
         }
     }
 
-    const fullPath = findPathCommand(input);
+    const fullPath = findPathCommand(commandName);
     if (isDef(fullPath)) {
         console.log('ffff');
         // fork(fullPath, )
