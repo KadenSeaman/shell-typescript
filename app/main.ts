@@ -35,7 +35,7 @@ const handleCommand = (input: string): void => {
 
     const fullPath = findPathCommand(commandName);
     if (isDef(fullPath)) {
-        execSync(`${fullPath} ${commandArgs}`, { stdio: 'inherit' });
+        execSync(`${commandName} ${commandArgs}`, { stdio: 'inherit' });
         return;
     }
 
