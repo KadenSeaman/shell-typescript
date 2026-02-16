@@ -37,6 +37,8 @@ const handleCommand = (input: string): void => {
     }
 
     // check $PATH commands
+    console.log(commandName);
+    console.log(commandArgs);
     const fullPath = findPathCommand(args.join(' '));
     if (isDef(fullPath)) {
         try {
