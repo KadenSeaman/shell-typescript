@@ -3,7 +3,7 @@ import { isCommandName } from './command/command';
 import { isDef } from './validator/core';
 import { CommandRegistry } from './command/commandregistry';
 import { findPathCommand } from './util';
-import { execSync } from 'child_process';
+import { execSync, spawnSync } from 'child_process';
 import { ShellParser } from './parser/parser';
 
 const readline = createInterface({
@@ -40,7 +40,7 @@ const handleCommand = (input: string): void => {
     const fullPath = findPathCommand(commandName);
     if (isDef(fullPath)) {
         try {
-            execSync(`${commandName} ${commandArgs}`, {
+            spawnSync(commandName, commandArgs, {
                 stdio: 'inherit',
             });
             return;
