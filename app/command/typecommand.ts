@@ -27,10 +27,10 @@ export class TypeCommand extends Command {
         const directories = (process.env?.PATH ?? '').split(path.delimiter);
         console.log(directories);
         for (const directory of directories) {
-            const fullPath = `${directory}/${commandName}`;
+            const fullPath = `${directory}/${input}`;
             try {
                 accessSync(fullPath, constants.X_OK);
-                console.log(`${commandName} is ${fullPath}`);
+                console.log(`${input} is ${fullPath}`);
                 return;
             } catch {
                 continue;
