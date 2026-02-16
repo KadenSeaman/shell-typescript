@@ -2,6 +2,7 @@ import type { Interface } from 'readline';
 import { EchoCommand } from './echocommand';
 import { ExitCommand } from './exitcommand';
 import { TypeCommand } from './typecommand';
+import { CommandRegistry } from './commandregistry';
 
 export const getCommandNameFromString = (
     input: string,
@@ -25,19 +26,6 @@ export const isCommandName = (input: string): input is CommandName => {
 
 export enum CommandType {
     BuiltIn = 'builtin',
-}
-
-export class CommandRegistry {
-    private static commands = new Map<CommandName, Command>();
-
-    static register(name: CommandName, command: Command) {
-        this.commands.set(name, command);
-    }
-
-    static get(name: CommandName): Command | undefined {
-        console.log(this.commands);
-        return this.commands.get(name);
-    }
 }
 
 export abstract class Command {
