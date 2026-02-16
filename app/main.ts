@@ -8,6 +8,11 @@ const readline = createInterface({
     output: process.stdout,
 });
 
+let isReadlineClosed = false;
+readline.on('close', () => {
+    isReadlineClosed = true;
+});
+
 const handleCommand = (input: string): void => {
     const splitInput = input.split(' ');
     const commandName = getCommandNameFromString(input);
@@ -26,6 +31,9 @@ const handleCommand = (input: string): void => {
 };
 
 const prompt = () => {
+    if (isReadlineClosed) {
+        return;
+    }
     readline.question('$ ', (answer) => {
         handleCommand(answer);
         prompt();
