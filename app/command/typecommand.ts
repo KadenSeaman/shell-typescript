@@ -7,9 +7,7 @@ import {
 } from './command';
 import { isDef } from '../validator/core';
 import { CommandRegistry } from './commandregistry';
-import path from 'node:path';
-import { env } from 'node:process';
-import { accessSync, constants } from 'node:fs';
+import { findPathCommand } from '../util';
 
 export class TypeCommand extends Command {
     public name = CommandName.Type;
@@ -24,16 +22,10 @@ export class TypeCommand extends Command {
                 return;
             }
         }
-        const directories = (process.env?.PATH ?? '').split(path.delimiter);
-        for (const directory of directories) {
-            const fullPath = path.join(directory, input);
-            try {
-                accessSync(fullPath, constants.X_OK);
-                console.log(`${input} is ${fullPath}`);
-                return;
-            } catch {
-                continue;
-            }
+        const fullPath = findPathCommand(input);
+        if (isDef(fullPath)) {
+            console.log(`${input} is ${fullPath}`);
+            return;
         }
 
         console.log(`${input}: not found`);

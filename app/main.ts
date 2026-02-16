@@ -2,6 +2,8 @@ import { createInterface } from 'readline';
 import { getCommandNameFromString } from './command/command';
 import { isDef } from './validator/core';
 import { CommandRegistry } from './command/commandregistry';
+import { findPathCommand } from './util';
+import { fork } from 'child_process';
 
 const readline = createInterface({
     input: process.stdin,
@@ -18,16 +20,22 @@ const handleCommand = (input: string): void => {
     const commandName = getCommandNameFromString(input);
     const commandParameters = splitInput.slice(1).join(' ');
 
-    if (!isDef(commandName)) {
-        console.log(`${input}: command not found`);
+    if (isDef(commandName)) {
+        const command = CommandRegistry.get(commandName);
+        if (isDef(command)) {
+            command.execute(commandParameters, readline);
+            return;
+        }
+    }
+
+    const fullPath = findPathCommand(input);
+    if (isDef(fullPath)) {
+        console.log('ffff');
+        // fork(fullPath, )
         return;
     }
-    const command = CommandRegistry.get(commandName);
-    if (!isDef(command)) {
-        console.log(`${commandName} is not registered`);
-        return;
-    }
-    command.execute(commandParameters, readline);
+
+    console.log(`${input}: command not found`);
 };
 
 const prompt = () => {

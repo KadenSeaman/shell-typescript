@@ -1,8 +1,4 @@
 import type { Interface } from 'readline';
-import { EchoCommand } from './echocommand';
-import { ExitCommand } from './exitcommand';
-import { TypeCommand } from './typecommand';
-import { CommandRegistry } from './commandregistry';
 
 export const getCommandNameFromString = (
     input: string,
