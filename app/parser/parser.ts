@@ -5,62 +5,50 @@ enum ParsingState {
     InsideSingleQuotes,
 }
 const singleQuote = "'";
-const whitespace = ' ';
+const isWhitespace = (token: string) => {
+    return token === ' ' || token === '\t' || token === '\n';
+};
 
 export class ShellParser {
-    private readonly args: string[] = [];
+    private args: string[] = [];
 
     private input: string = '';
     private state: ParsingState = ParsingState.Standard;
-    private current = '';
+    private buffer = '';
     private pos = 0;
+    private tokenStarted = false;
 
-    private clearState() {
+    private setupState(input: string) {
+        this.args = [];
         this.state = ParsingState.Standard;
-        this.current = '';
+        this.buffer = '';
         this.pos = 0;
-        this.input = '';
+        this.input = input;
     }
 
     private get currentToken() {
-        return this.input[this.pos];
+        const token = this.input[this.pos];
+        if (!isDef(token)) {
+            throw new Error('Should never have an undefined token');
+        }
+        return token;
     }
 
     private nextToken() {
         this.pos++;
     }
 
-    private endCurrent() {
-        const currentValue = this.current;
-        this.current = '';
-        if (currentValue.length <= 0) {
-            return;
+    private commitBuffer() {
+        if (this.tokenStarted) {
+            this.args.push(this.buffer);
+            this.buffer = '';
+            this.tokenStarted = false;
         }
-        if (currentValue === "''") {
-            return;
-        }
-        const lastParsedArg = this.args.at(-1);
-        // concat two single quoted args in a row
-        // This has some undefined behavior like what if the arg is a single '
-        if (isDef(lastParsedArg)) {
-            const isSingleQuoteArg = (str: string) => {
-                return str[0] === singleQuote && str.at(-1) === singleQuote;
-            };
-            if (
-                isSingleQuoteArg(lastParsedArg) &&
-                isSingleQuoteArg(currentValue)
-            ) {
-                //concat them together
-                const concatedArg = lastParsedArg
-                    .substring(0, lastParsedArg.length - 1)
-                    .concat(currentValue.substring(1));
-                this.args[this.args.length - 1] = concatedArg;
-                return;
-            }
-        }
+    }
 
-        this.args.push(currentValue);
-        this.current = '';
+    private addToBuffer(token: string) {
+        this.tokenStarted = true;
+        this.buffer += token;
     }
 
     /**
@@ -68,28 +56,34 @@ export class ShellParser {
      * @returns an ordered array of args
      */
     public parseInput(input: string): string[] {
-        this.input = input;
+        this.setupState(input);
 
         while (this.pos < input.length) {
-            const char = this.currentToken;
+            const token = this.currentToken;
 
             switch (this.state) {
                 case ParsingState.Standard: {
-                    if (char === whitespace) {
-                        this.endCurrent();
+                    if (isWhitespace(token)) {
+                        this.commitBuffer();
+                        this.nextToken();
+                        continue;
                     }
-                    this.current += char;
-                    if (char === singleQuote) {
+                    if (token === singleQuote) {
                         this.state = ParsingState.InsideSingleQuotes;
+                        this.tokenStarted = true;
+                        this.nextToken();
+                        continue;
                     }
+                    this.addToBuffer(token);
                     break;
                 }
                 case ParsingState.InsideSingleQuotes: {
-                    this.current += char;
-                    if (char === singleQuote) {
+                    if (token === singleQuote) {
                         this.state = ParsingState.Standard;
-                        this.endCurrent();
+                        this.nextToken();
+                        continue;
                     }
+                    this.addToBuffer(token);
                     break;
                 }
                 default: {
@@ -99,9 +93,11 @@ export class ShellParser {
 
             this.nextToken();
         }
+        if (this.state === ParsingState.InsideSingleQuotes) {
+            throw new Error("unexpected EOF while looking for matching '");
+        }
+        this.commitBuffer();
 
-        const result = this.args;
-        this.clearState();
-        return result;
+        return this.args;
     }
 }

@@ -4,7 +4,7 @@ import { Command, CommandName } from './command';
 export class ExitCommand extends Command {
     public name = CommandName.Exit;
 
-    public execute(_: string, readline: Interface): void {
+    public execute(_: string[], readline: Interface): void {
         readline.close();
     }
 }

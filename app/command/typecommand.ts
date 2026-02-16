@@ -1,10 +1,5 @@
 import type { Interface } from 'node:readline';
-import {
-    Command,
-    CommandName,
-    getCommandNameFromString,
-    isCommandName,
-} from './command';
+import { Command, CommandName, isCommandName } from './command';
 import { isDef } from '../validator/core';
 import { CommandRegistry } from './commandregistry';
 import { findPathCommand } from '../util';
@@ -12,8 +7,9 @@ import { findPathCommand } from '../util';
 export class TypeCommand extends Command {
     public name = CommandName.Type;
 
-    public execute(input: string, _: Interface): void {
-        const commandName = getCommandNameFromString(input);
+    public execute(args: string[], _: Interface): void {
+        const commandName = args[0];
+        const fullPath = args.join(' ');
         if (isCommandName(commandName)) {
             const command = CommandRegistry.get(commandName);
             if (isDef(command)) {
@@ -21,12 +17,12 @@ export class TypeCommand extends Command {
                 return;
             }
         }
-        const fullPath = findPathCommand(input);
-        if (isDef(fullPath)) {
-            console.log(`${input} is ${fullPath}`);
+        const pathCommand = findPathCommand(fullPath);
+        if (isDef(pathCommand)) {
+            console.log(`${fullPath} is ${pathCommand}`);
             return;
         }
 
-        console.log(`${input}: not found`);
+        console.log(`${fullPath}: not found`);
     }
 }

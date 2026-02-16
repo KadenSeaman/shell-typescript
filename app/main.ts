@@ -20,24 +20,23 @@ const shellParser = new ShellParser();
 
 const handleCommand = (input: string): void => {
     const args = shellParser.parseInput(input);
-    console.log(args);
+    const [commandName, ...commandArgs] = args;
 
-    const commandName = args[0];
     if (!isDef(commandName)) {
         console.log(`${input}: command not found`);
         return;
     }
-    const commandArgs = args.slice(1);
-    const stringArgs = commandArgs.join(' ');
 
+    // check builtin commands
     if (isCommandName(commandName)) {
         const command = CommandRegistry.get(commandName);
         if (isDef(command)) {
-            command.execute(stringArgs, readline);
+            command.execute(commandArgs, readline);
             return;
         }
     }
 
+    // check $PATH commands
     const fullPath = findPathCommand(commandName);
     if (isDef(fullPath)) {
         execSync(`${commandName} ${commandArgs}`, { stdio: 'inherit' });
