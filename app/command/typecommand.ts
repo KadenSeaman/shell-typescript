@@ -13,7 +13,8 @@ export class TypeCommand extends Command {
     public execute(args: string[], _: Interface): void {
         const commandName = args[0];
         if (!isDef(commandName)) {
-            throw new Error('Expected at least one argument');
+            console.log('');
+            return;
         }
 
         if (isBuiltinCommandName(commandName)) {

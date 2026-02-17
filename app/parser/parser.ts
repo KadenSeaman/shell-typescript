@@ -143,6 +143,9 @@ export class ShellParser {
         if (this.state === ParsingState.InsideSingleQuotes) {
             throw new Error("unexpected EOF while looking for matching '");
         }
+        if (this.state === ParsingState.InsideDoubleQuotes) {
+            throw new Error('unexpected EOF while looking for matching "');
+        }
         this.commitBuffer();
 
         return this.args;
